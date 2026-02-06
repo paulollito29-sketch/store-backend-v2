@@ -5,5 +5,5 @@ public class StockInvalidException extends RuntimeException{
     public StockInvalidException(String messaje){
         super(messaje);
     }
-
 }
+

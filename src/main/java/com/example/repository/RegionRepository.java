@@ -16,6 +16,4 @@ public interface RegionRepository extends JpaRepository<RegionEntity, Long> {
     boolean existsByEnabledIsTrueAndNameIgnoreCase(String name);
 
     boolean existsByEnabledIsTrueAndIdRegionNotAndNameIgnoreCase(Long id, String name);
-
-    Optional<RegionEntity> findFirstByEnabledIsFalseAndIdRegion(Long id);
 }

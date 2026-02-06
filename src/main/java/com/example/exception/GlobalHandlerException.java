@@ -2,6 +2,7 @@ package com.example.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestControllerAdvice
-public class GlobalHandlerException {
+public class    GlobalHandlerException {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handlerResourceNotFoundException(ResourceNotFoundException ex) {
@@ -49,4 +50,12 @@ public class GlobalHandlerException {
         map.put("message", ex.getMessage());
         return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<?> handlerHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", "Incorrect Json Format");
+        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+    }
+
 }

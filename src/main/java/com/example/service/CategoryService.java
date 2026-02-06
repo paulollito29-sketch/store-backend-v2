@@ -25,7 +25,7 @@ public class CategoryService {
                 .toList();
     }
 
-    public CategoryCreated create(CategoryCreate dto) {
+    public CategoryCreated  create(CategoryCreate dto) {
         if (categoryRepository.existsByEnabledIsTrueAndNameIgnoreCase(dto.name())) {
             throw new ResourceAlreadyExistsException("this name: " + dto.name() + " already exists");
         }
@@ -44,7 +44,8 @@ public class CategoryService {
         var category = categoryRepository.findFirstByEnabledIsTrueAndIdCategory(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
-        if (categoryRepository.existsByEnabledIsTrueAndIdCategoryNotAndNameIgnoreCase(id, dto.name())) {
+        if (categoryRepository.
+                existsByEnabledIsTrueAndIdCategoryNotAndNameIgnoreCase(id, dto.name())) {
             throw new ResourceAlreadyExistsException("this name: " + dto.name() + " already exists");
         }
         var categoryUpdate = CategoryMapper.ToEntity(category, dto);

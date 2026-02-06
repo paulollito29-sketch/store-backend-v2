@@ -2,6 +2,9 @@ package com.example.service;
 
 import com.example.dto.*;
 import com.example.entity.EmployeeEntity;
+import com.example.exception.ResourceAlreadyExistsException;
+import com.example.exception.ResourceNotFoundException;
+import com.example.mapper.EmployeeMapper;
 import com.example.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,61 +22,41 @@ public class EmployeeService {
 
     public List<EmployeeFindAll> findAll() {
         return employeeRepository.findAllByEnabledIsTrueOrderByIdEmployeeDesc().stream()
-                .map(item -> new EmployeeFindAll(item.getIdEmployee(), item.getFirstName(), item.getLastName(), item.getAge(), item.getSalary()))
+                .map(EmployeeMapper::toEmployeeFindAll)
                 .toList();
     }
 
     public EmployeeCreated create(EmployeeCreate dto) {
         if (employeeRepository.existsByEnabledIsTrueAndFirstNameIgnoreCase(dto.firstName())) {
-            throw new RuntimeException("this name: " + dto.firstName() + " already exists");
+            throw new ResourceAlreadyExistsException("this name: " + dto.firstName() + " already exists");
         }
-        var employeeEntity = EmployeeEntity.builder()
-                .firstName(dto.firstName())
-                .lastName(dto.lastName())
-                .age(dto.age())
-                .salary(dto.salary())
-                .enabled(true)
-                .createdAt(LocalDateTime.now())
-                .build();
+        var employeeEntity = EmployeeMapper.toEntityCreate(dto);
         var employeeSaved = employeeRepository.save(employeeEntity);
-        return new EmployeeCreated(employeeSaved.getIdEmployee(), employeeSaved.getFirstName(), employeeSaved.getLastName(), employeeSaved.getAge(), employeeSaved.getSalary());
+        return EmployeeMapper.toEmployeeCreated(employeeSaved);
     }
 
     public EmployeeFindOne findOne(Long id) {
         var employee = employeeRepository.findFirstByEnabledIsTrueAndIdEmployee(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
-        return new EmployeeFindOne(employee.getIdEmployee(), employee.getFirstName(), employee.getLastName(), employee.getAge(), employee.getSalary());
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+        return EmployeeMapper.toEmployeeFindOne(employee);
     }
 
     public EmployeeUpdated update(long id, EmployeeUpdate dto) {
-        var employeeUpdated = employeeRepository.findFirstByEnabledIsTrueAndIdEmployee(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
-        if (employeeRepository.existsByEnabledIsTrueAndIdEmployeeNotAndFirstNameIgnoreCaseAndLastNameIgnoreCase(id, employeeUpdated.getFirstName(), employeeUpdated.getLastName())) {
-            throw new RuntimeException("this name" + dto.firstName() + " " + dto.lastName() + " already exists");
+        var employee = employeeRepository.findFirstByEnabledIsTrueAndIdEmployee(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+        if (employeeRepository.existsByEnabledIsTrueAndIdEmployeeNotAndFirstNameIgnoreCaseAndLastNameIgnoreCase(employee.getIdEmployee(), employee.getFirstName(), employee.getLastName())) {
+            throw new ResourceAlreadyExistsException("this name" + dto.firstName() + " " + dto.lastName() + " already exists");
         }
-        employeeUpdated.setFirstName(dto.firstName());
-        employeeUpdated.setLastName(dto.lastName());
-        employeeUpdated.setAge(dto.age());
-        employeeUpdated.setSalary(dto.salary());
-        employeeUpdated.setUpdatedAt(LocalDateTime.now());
+        var employeeUpdated = EmployeeMapper.toEntityUpdate(employee, dto);
         var employeeSaved = employeeRepository.save(employeeUpdated);
-        return new EmployeeUpdated(employeeUpdated.getIdEmployee(), employeeUpdated.getFirstName(), employeeUpdated.getLastName(), employeeUpdated.getAge(), employeeUpdated.getSalary());
+        return EmployeeMapper.toEmployeeUpdated(employeeSaved);
     }
 
     public void delete(Long id) {
         var employee = employeeRepository.findFirstByEnabledIsTrueAndIdEmployee(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
-        employee.setEnabled(false);
-        employee.setDeletedAt(LocalDateTime.now());
-        employeeRepository.save(employee);
-    }
-
-    public void enable(Long id) {
-        var employee = employeeRepository.findFirstByEnabledIsTrueAndIdEmployee(id)
-                .orElseThrow(() -> new RuntimeException("Employeee not found"));
-        employee.setEnabled(true);
-        employee.setUpdatedAt(LocalDateTime.now());
-        employeeRepository.save(employee);
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+        var employeeDeleted = EmployeeMapper.toEntityDeleted(employee);
+        employeeRepository.save(employeeDeleted);
     }
 
 }
