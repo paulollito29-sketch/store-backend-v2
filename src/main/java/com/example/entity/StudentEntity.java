@@ -17,7 +17,7 @@ public class StudentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idStudent;
     private String firstName;
-    private String LastName;
+    private String lastName;
     private Integer age;
     private String grade;
     private Boolean enabled;
