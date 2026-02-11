@@ -5,20 +5,22 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Table(name = "Posts")
 @Entity
-@Getter
-@Setter
+@Table(name="Movies")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostEntity {
+@Getter
+@Setter
+public class MovieEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPost;
-    private String title;
-    private Integer reactions;
-    private Double rating;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String idMovie;
+    private String name;
+    private String director;
+    private Integer duration;
+    private Integer year;
+    private String genre;
     private Boolean enabled;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

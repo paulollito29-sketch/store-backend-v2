@@ -5,20 +5,21 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Table(name = "Posts")
 @Entity
 @Getter
 @Setter
+@Table(name = "Courses")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostEntity {
+public class CourseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPost;
-    private String title;
-    private Integer reactions;
-    private Double rating;
+    private Long idCourse;
+    private String name;
+    private Integer credits;
+    private Integer hours;
+    private String modality;
     private Boolean enabled;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

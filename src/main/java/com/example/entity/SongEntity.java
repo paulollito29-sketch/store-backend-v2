@@ -4,21 +4,21 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-
-@Table(name = "Posts")
 @Entity
-@Getter
-@Setter
+@Table(name="Songs")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostEntity {
+@Getter
+@Setter
+public class SongEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPost;
-    private String title;
-    private Integer reactions;
-    private Double rating;
+    private Long idSong;
+    private String name;
+    private String artist;
+    private Integer duration;
+    private String genre;
     private Boolean enabled;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
