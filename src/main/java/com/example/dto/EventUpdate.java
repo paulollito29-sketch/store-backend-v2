@@ -18,7 +18,10 @@ public record EventUpdate (@NotBlank(message = "this cannot be blank")
                            @NotBlank(message = "this cannot be blank")
                            @NotNull(message = "this cannot be null")
                            String location,
-                           @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+                           @Pattern(
+                                   regexp = "^\\d{4}-\\d{2}-\\d{2}$",
+                                   message = "Invalid format. Use yyyy-MM-dd"
+                           )
                            @NotNull(message = "this cannot be null")
-                           LocalDate eventDate) {
+                           String eventDate) {
 }

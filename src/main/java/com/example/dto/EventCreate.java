@@ -3,6 +3,7 @@ package com.example.dto;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDate;
 
@@ -15,7 +16,10 @@ public record EventCreate(@NotBlank(message = "this cannot be blank")
                           @NotBlank(message = "this cannot be blank")
                           @NotNull(message = "this cannot be null")
                           String location,
-                          @FutureOrPresent(message = "event date cannot be before current date")
+                          @Pattern(
+                                  regexp = "^\\d{4}-\\d{2}-\\d{2}$",
+                                  message = "Invalid format. Use yyyy-MM-dd"
+                          )
                           @NotNull(message = "this cannot be null")
-                          LocalDate eventDate) {
+                          String eventDate) {
 }

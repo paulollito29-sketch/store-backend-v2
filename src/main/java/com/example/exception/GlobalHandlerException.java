@@ -6,6 +6,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +57,20 @@ public class    GlobalHandlerException {
         Map<String, Object> map = new HashMap<>();
         map.put("message", "Incorrect Json Format");
         return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidDateException.class)
+    public ResponseEntity<?> handlerInvalidDatetime(InvalidDateException ex) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", "the date cannot be before today");
+        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<?> handlerInvalidDatetime(MethodArgumentTypeMismatchException ex) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", "Verify the type path variable data type");
+        return new ResponseEntity<>(map, HttpStatus.CONFLICT);
     }
 
 }

@@ -16,6 +16,7 @@ public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idStudent;
+    @Column(length = 1000)
     private String firstName;
     private String lastName;
     private Integer age;

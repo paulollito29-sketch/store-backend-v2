@@ -3,6 +3,7 @@ package com.example.mapper;
 import com.example.dto.*;
 import com.example.entity.EventEntity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class EventMapper {
@@ -19,7 +20,7 @@ public class EventMapper {
                 .name(dto.name())
                 .description(dto.description())
                 .location(dto.location())
-                .eventDate(dto.eventDate())
+                .eventDate(LocalDate.parse(dto.eventDate()))
                 .enabled(true)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -37,7 +38,7 @@ public class EventMapper {
         entity.setName(dto.name());
         entity.setDescription(dto.description());
         entity.setLocation(dto.location());
-        entity.setEventDate(dto.eventDate());
+        entity.setEventDate(LocalDate.parse(dto.eventDate()));
         entity.setUpdatedAt(LocalDateTime.now());
         return entity;
     }

@@ -1,12 +1,14 @@
 package com.example.service;
 
 import com.example.dto.*;
+import com.example.exception.InvalidDateException;
 import com.example.exception.ResourceAlreadyExistsException;
 import com.example.exception.ResourceNotFoundException;
 import com.example.mapper.EventMapper;
 import com.example.repository.EventRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -26,7 +28,14 @@ public class EventService {
         if (eventRepository.existsByEnabledIsTrueAndNameIgnoreCase(dto.name())) {
             throw new ResourceAlreadyExistsException("this event already exists");
         }
-        var eventSaved = eventRepository.save(EventMapper.toEntityCreated(dto));
+        var eventDate = LocalDate.parse(dto.eventDate());
+        var now = LocalDate.now();
+        if(eventDate.isBefore(now)){
+            throw new InvalidDateException("Invalid date. Must be after date now");
+        }
+        var eventCreated = EventMapper.toEntityCreated(dto);
+
+        var eventSaved = eventRepository.save(eventCreated);
         return EventMapper.toCreated(eventSaved);
     }
 
@@ -41,6 +50,11 @@ public class EventService {
                 .orElseThrow(() -> new ResourceNotFoundException("event not found"));
         if (eventRepository.existsByEnabledIsTrueAndIdEventNotAndNameIgnoreCase(id, dto.name())) {
             throw new ResourceAlreadyExistsException("this event already exists");
+        }
+        var eventDate = LocalDate.parse(dto.eventDate());
+        var now = LocalDate.now();
+        if(eventDate.isBefore(now)){
+            throw new InvalidDateException("Invalid date. Must be after date now");
         }
         var eventSaved = eventRepository.save(EventMapper.toEntityUpdated(event, dto));
         return EventMapper.toUpdated(eventSaved);
