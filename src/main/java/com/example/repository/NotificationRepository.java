@@ -3,9 +3,14 @@ package com.example.repository;
 import com.example.entity.NotificationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface NotificationRepository extends JpaRepository<NotificationEntity, Long> {
+    List<NotificationEntity> findAllByEnabledIsTrueOrderByIdNotificationDesc();
 
-    boolean existsByTitleIgnoreCase(String title);
+    Optional<NotificationEntity> findFirstByEnabledIsTrueAndIdNotification(Long id);
 
-    boolean existsByIdNotificationNotAndTitleIgnoreCase(Long id, String title);
+    boolean existsByEnabledIsTrueAndTitleIgnoreCase(String title);
+    boolean existsByEnabledIsTrueAndIdNotificationNotAndTitleIgnoreCase(Long id, String title);
 }
