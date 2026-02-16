@@ -1,0 +1,15 @@
+[33md0191af[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Merge branch 'main' of https://github.com/paulollito29-sketch/store-backend-v
+[33m386acf2[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #2 from paulollito29-sketch/revert-1-codex/create-crud-for-notifications,-classrooms,-and-reports
+[33md80ccf3[m[33m ([m[1;31morigin/revert-1-codex/create-crud-for-notifications,-classrooms,-and-reports[m[33m)[m Revert "Codex-generated pull request"
+[33m736b232[m se hicieron los crud de report y classroom
+[33m56c3f56[m Merge pull request #1 from paulollito29-sketch/codex/create-crud-for-notifications,-classrooms,-and-reports
+[33mc861116[m[33m ([m[1;31morigin/codex/create-crud-for-notifications,-classrooms,-and-reports[m[33m)[m feat: add CRUD modules for notification classroom and report
+[33m704005d[m se crearon las entidades de classroom, notificatio y report
+[33mc7a1add[m creacion completa de crud de contact
+[33m14ef61b[m crud completo de artist y country con sus respectivas validaciones
+[33m82e5438[m validacion de la fecha en service de events y validaciones de json en dto. validaciones en el dto de supplier y student
+[33m3698b6f[m creacion de cruds completos de supplier, event, course, teacher, student
+[33maa4fdb3[m creacion de crud completo de students y song, mas creacion de otras entidades y demas
+[33m807a3e0[m add comment over method findAll
+[33mc6d1927[m Implementacion del handler y actualizacion de flujo de informacion en el service de los siguientes:Book, job, client, employee . Implementacion del flujo completo(crud) de Animal y creacion de la entidad food con sus dto´s y la entidad post sola
+[33me3e5a4c[m first commit
