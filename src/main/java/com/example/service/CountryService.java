@@ -25,8 +25,11 @@ public class CountryService {
     }
 
     public CountryCreated create(CountryCreate dto) {
-        if (countryRepository.existsByEnabledIsTrueAndNameIgnoreCase(dto.name())) {
+        if (countryRepository.existsByEnabledIsTrueAndName(dto.name())) {
             throw new ResourceAlreadyExistsException("this name: " + dto.name() + " already exists");
+        }
+        if (countryRepository.existsByEnabledIsTrueAndCode(dto.code())) {
+            throw new ResourceAlreadyExistsException("this code: " + dto.name() + " already exists");
         }
 
         var countryEntity = CountryMapper.toEntity(dto);
@@ -45,8 +48,12 @@ public class CountryService {
         var country = countryRepository.findFirstByEnabledIsTrueAndIdCountry(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Country not found"));
 
-        if (countryRepository.existsByEnabledIsTrueAndIdCountryNotAndNameIgnoreCase(id, dto.name())) {
+        if (countryRepository.existsByEnabledIsTrueAndIdCountryNotAndName(id, dto.name())) {
             throw new ResourceAlreadyExistsException("this name: " + dto.name() + " already exists");
+        }
+
+        if (countryRepository.existsByEnabledIsTrueAndCode(dto.code())) {
+            throw new ResourceAlreadyExistsException("this code: " + dto.name() + " already exists");
         }
 
         var countryEntity = CountryMapper.toEntity(country, dto);

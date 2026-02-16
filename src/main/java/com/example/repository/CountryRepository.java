@@ -12,7 +12,9 @@ public interface CountryRepository extends JpaRepository<CountryEntity, Long> {
 
     Optional<CountryEntity> findFirstByEnabledIsTrueAndIdCountry(Long id);
 
-    boolean existsByEnabledIsTrueAndNameIgnoreCase(String name);
+    boolean existsByEnabledIsTrueAndName(String name);
 
-    boolean existsByEnabledIsTrueAndIdCountryNotAndNameIgnoreCase(Long id, String name);
+    boolean existsByEnabledIsTrueAndIdCountryNotAndName(Long id, String name);
+
+    boolean existsByEnabledIsTrueAndCode(String code);
 }

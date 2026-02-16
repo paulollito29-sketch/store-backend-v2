@@ -72,5 +72,4 @@ public class    GlobalHandlerException {
         map.put("message", "Verify the type path variable data type");
         return new ResponseEntity<>(map, HttpStatus.CONFLICT);
     }
-
 }

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 public record CountryCreate(
         @NotBlank(message = "this cannot be blank")
         @NotNull(message = "this cannot be null")
+        @Size(min = 2, max = 255,message = " country name must not be more than 255 characters")
         String name,
         @NotBlank(message = "this cannot be blank")
         @NotNull(message = "this cannot be null")
