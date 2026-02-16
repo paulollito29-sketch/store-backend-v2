@@ -17,7 +17,7 @@ public class ReportEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idReport;
     private String type;
-    private String Name;
+    private String name;
     private String description;
     private Boolean enabled;
     private LocalDateTime createdAt;
