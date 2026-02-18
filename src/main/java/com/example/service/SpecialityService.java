@@ -31,10 +31,10 @@ public class SpecialityService {
         if (specialityRepository.existsByEnabledIsTrueAndNameIgnoreCase(dto.name())){
             throw new ResourceAlreadyExistsException("this speciality already exists");
         }
-        if (!facultyRepository.existsByEnabledIsTrueAndIdFaculty(dto.facultyId())) {
-            throw new ResourceNotFoundException("no faculty found");
-        }
-        var speciality = SpecialityMapper.toEntityCreated(dto);
+        var faculty = facultyRepository.findByEnabledIsTrueAndIdFaculty(dto.facultyId())
+                .orElseThrow(()-> new ResourceNotFoundException("no faculty found"));
+
+        var speciality = SpecialityMapper.toEntityCreated(dto, faculty);
         var specialitySaved = specialityRepository.save(speciality);
         System.out.println(specialitySaved);
         return SpecialityMapper.toSpecialityCreated(specialitySaved);

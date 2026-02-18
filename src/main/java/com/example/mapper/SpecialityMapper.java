@@ -14,10 +14,7 @@ public class SpecialityMapper {
         return new SpecialityFindAll(entity.getIdSpeciality(), entity.getFaculty().getName(), entity.getName());
     }
 
-    public static SpecialityEntity toEntityCreated(SpecialityCreate dto){
-        var faculty = FacultyEntity.builder()
-                .idFaculty(dto.facultyId())
-                .build();
+    public static SpecialityEntity toEntityCreated(SpecialityCreate dto, FacultyEntity faculty){
         return SpecialityEntity.builder()
                 .name(dto.name())
                 .faculty(faculty)

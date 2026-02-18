@@ -18,5 +18,5 @@ public interface FacultyRepository extends JpaRepository<FacultyEntity, Long> {
 
     // methods for speciality service
 
-    boolean existsByEnabledIsTrueAndIdFaculty(Long id);
+   Optional<FacultyEntity> findByEnabledIsTrueAndIdFaculty(Long id);
 }
