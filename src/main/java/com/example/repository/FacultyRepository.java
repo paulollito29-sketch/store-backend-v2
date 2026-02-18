@@ -15,3 +15,4 @@ public interface FacultyRepository extends JpaRepository<FacultyEntity, Long> {
     boolean existsByEnabledIsTrueAndNameIgnoreCase(String name);
 
     boolean existsByEnabledIsTrueAndIdFacultyNotAndNameIgnoreCase(Long id, String name);
+}

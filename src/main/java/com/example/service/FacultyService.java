@@ -20,7 +20,10 @@ public class FacultyService {
     }
 
     public List<FacultyFindAll> findAll(){
-        return facultyRepository.findAllByEnabledIsTrueOrderByIdFacultyDesc().stream().map(FacultyMapper::toFindAll).toList();
+        return facultyRepository.findAllByEnabledIsTrueOrderByIdFacultyDesc()
+                .stream()
+                .map(FacultyMapper::toFindAll)
+                .toList();
     }
 
     public FacultyCreated create(FacultyCreate dto){
