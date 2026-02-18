@@ -1,10 +1,12 @@
 package com.example.service;
 
 import com.example.dto.*;
+import com.example.entity.FacultyEntity;
 import com.example.exception.ResourceAlreadyExistsException;
 import com.example.exception.ResourceNotFoundException;
 import com.example.mapper.FacultyMapper;
 import com.example.repository.FacultyRepository;
+import com.example.repository.SpecialityRepository;
 import jakarta.validation.constraints.Size;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +16,14 @@ import java.util.List;
 public class FacultyService {
 
     private final FacultyRepository facultyRepository;
+    private final SpecialityRepository specialityRepository;
 
-    public FacultyService(FacultyRepository facultyRepository){
+    public FacultyService(FacultyRepository facultyRepository, SpecialityRepository specialityRepository){
         this.facultyRepository = facultyRepository;
+        this.specialityRepository = specialityRepository;
     }
 
     public List<FacultyFindAll> findAll(){
-
         return facultyRepository.findAllByEnabledIsTrueOrderByIdFacultyDesc()
                 .stream()
                 .map(FacultyMapper::toFindAll)
@@ -40,6 +43,7 @@ public class FacultyService {
     public FacultyFindOne findOne(Long id){
         var faculty = facultyRepository.findFirstByEnabledIsTrueAndIdFaculty(id)
                 .orElseThrow(()-> new ResourceNotFoundException("no faculty found"));
+        faculty.setSpeciality(specialityRepository.findAllByFacultyId(id));
         return FacultyMapper.toFindOne(faculty);
     }
 

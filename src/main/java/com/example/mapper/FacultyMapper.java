@@ -5,6 +5,8 @@ import com.example.entity.FacultyEntity;
 import com.example.repository.FacultyRepository;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 public class FacultyMapper {
 
@@ -12,8 +14,17 @@ public class FacultyMapper {
 
     }
 
-    public static FacultyFindAll toFindAll(FacultyEntity entity){
-        return new FacultyFindAll(entity.getIdFaculty(), entity.getName());
+    public static List<SpecialityFindAll> toSpecialities(FacultyEntity entity){
+        if (entity.getSpeciality() == null){
+            return Collections.emptyList();
+        }
+        return entity.getSpeciality().stream()
+                .map(SpecialityMapper::toFindAll)
+                .toList();
+    }
+
+    public static FacultyFindAll toFindAll(FacultyEntity entity ){
+        return new FacultyFindAll(entity.getIdFaculty(), entity.getName(), toSpecialities(entity));
     }
 
     public static FacultyEntity toEntityCreate(FacultyCreate dto){
@@ -29,8 +40,10 @@ public class FacultyMapper {
     }
 
     public static FacultyFindOne toFindOne(FacultyEntity entity){
-        return new FacultyFindOne(entity.getIdFaculty(), entity.getName());
+        return new FacultyFindOne(entity.getIdFaculty(), entity.getName(), toSpecialities(entity));
     }
+
+
 
     public static FacultyEntity toFacultyUpdate(FacultyEntity entity, FacultyUpdate dto){
         entity.setName(dto.name());

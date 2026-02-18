@@ -18,8 +18,7 @@ public class FacultyEntity {
     private Long idFaculty;
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "speciality_id", foreignKey = @ForeignKey(name = "fk_faculty_speciality"))
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY)
     private List<SpecialityEntity> speciality;
 
     private Boolean enabled;
