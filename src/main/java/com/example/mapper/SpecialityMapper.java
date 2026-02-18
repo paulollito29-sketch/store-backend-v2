@@ -14,7 +14,10 @@ public class SpecialityMapper {
         return new SpecialityFindAll(entity.getIdSpeciality(), entity.getFaculty().getName(), entity.getName());
     }
 
-    public static SpecialityEntity toEntityCreated(SpecialityCreate dto, FacultyEntity faculty){
+    public static SpecialityEntity toEntityCreated(SpecialityCreate dto){
+        var faculty = FacultyEntity.builder()
+                .idFaculty(dto.facultyId())
+                .build();
         return SpecialityEntity.builder()
                 .name(dto.name())
                 .faculty(faculty)
@@ -24,7 +27,7 @@ public class SpecialityMapper {
     }
 
     public static SpecialityCreated toSpecialityCreated(SpecialityEntity entity){
-        return new SpecialityCreated(entity.getIdSpeciality(), entity.getFaculty().getIdFaculty(), entity.getName());
+        return new SpecialityCreated(entity.getIdSpeciality(), entity.getFaculty().getName(), entity.getName());
     }
 
     public static SpecialityFindOne toFindOne(SpecialityEntity entity){
@@ -38,7 +41,7 @@ public class SpecialityMapper {
     }
 
     public static SpecialityUpdated toSpecialityUpdated(SpecialityEntity entity){
-        return new SpecialityUpdated(entity.getIdSpeciality(), entity.getFaculty().getIdFaculty(), entity.getName());
+        return new SpecialityUpdated(entity.getIdSpeciality(), entity.getFaculty().getName(), entity.getName());
     }
 
     public static SpecialityEntity toEntityDeleted(SpecialityEntity entity){

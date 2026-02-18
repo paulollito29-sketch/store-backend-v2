@@ -7,6 +7,6 @@ import jakarta.validation.constraints.Size;
 
 public record SpecialityCreated(
         Long specialityId,
-        Long facultyId,
+        String facultyName,
         String name) {
 }
