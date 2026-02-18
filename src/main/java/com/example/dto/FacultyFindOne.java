@@ -1,4 +1,6 @@
 package com.example.dto;
 
-public record FacultyFindOne(Long facultyId, String name) {
+import java.util.List;
+
+public record FacultyFindOne(Long facultyId, String name, List<SpecialityFindAll> specialities) {
 }

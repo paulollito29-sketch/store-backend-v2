@@ -20,6 +20,7 @@ public class FacultyService {
     }
 
     public List<FacultyFindAll> findAll(){
+
         return facultyRepository.findAllByEnabledIsTrueOrderByIdFacultyDesc()
                 .stream()
                 .map(FacultyMapper::toFindAll)
