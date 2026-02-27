@@ -26,6 +26,8 @@ public class TeacherService {
         if (teacherRepository.existsByEnabledIsTrueAndEmailIgnoreCase(dto.email())) {
             throw new ResourceAlreadyExistsException("this teacher email already exists");
         }
+        var teacher = teacherRepository.findFirstByEnabledIsTrueAndIdTeacher(id)
+                .orElseThrow(() -> new ResourceNotFoundException("teacher not found"));
         var teacherSaved = teacherRepository.save(TeacherMapper.toEntityCreated(dto));
         return TeacherMapper.toCreated(teacherSaved);
     }

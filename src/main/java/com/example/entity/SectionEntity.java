@@ -1,32 +1,29 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@Table(name = "Teachers")
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "Sections")
 @Builder
-
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class TeacherEntity {
+public class SectionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    private Long idTeacher;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String subject;
+    private Long idSection;
+    private String name;
     private Boolean enabled;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
+
 }
