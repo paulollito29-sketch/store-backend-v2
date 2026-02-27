@@ -19,7 +19,10 @@ public interface SectionRepository extends JpaRepository<SectionEntity, Long> {
 
     boolean existsByEnabledIsTrueAndIdSectionNotAndNameIgnoreCase(Long id, String name);
 
-    //methods for teacher
+    //methods for teacherSection
 
-    Optional<SectionEntity> findByEnabledIsTrueAndIdSection(Long id);
+    boolean existsByEnabledIsTrueAndIdSection(Long id);
+
+
+
 }
