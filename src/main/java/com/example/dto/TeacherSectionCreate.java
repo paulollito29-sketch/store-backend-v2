@@ -10,6 +10,6 @@ public record TeacherSectionCreate(
         @NotNull(message = "this cannot be null")
         Long teacherId,
         @NotNull(message = "this cannot be null")
-        List<Long> sectionsId) {
+        Long sectionId) {
 
 }

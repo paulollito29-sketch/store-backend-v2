@@ -11,15 +11,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@IdClass(TeacherSectionPK.class)
 @Builder
 
 public class TeacherSectionEntity {
 
-    @Id
+    @EmbeddedId
+    private TeacherSectionPK id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("teacherId")
+    @JoinColumn(name = "id_teacher", foreignKey = @ForeignKey(name = "fk_teacher_section_t"))
     private TeacherEntity teacher;
 
-    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("sectionId")
+    @JoinColumn(name = "id_section", foreignKey = @ForeignKey(name = "fk_teacher_section_s"))
     private SectionEntity section;
 
 

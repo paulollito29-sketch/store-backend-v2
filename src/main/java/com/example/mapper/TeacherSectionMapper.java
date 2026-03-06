@@ -1,12 +1,10 @@
 package com.example.mapper;
 
-import com.example.dto.TeacherFullFindAll;
-import com.example.dto.TeacherSectionCreate;
-import com.example.dto.TeacherSectionUpdate;
-import com.example.dto.TeacherSectionUpdated;
+import com.example.dto.*;
 import com.example.entity.SectionEntity;
 import com.example.entity.TeacherEntity;
 import com.example.entity.TeacherSectionEntity;
+import com.example.entity.TeacherSectionPK;
 import jdk.dynalink.beans.StaticClass;
 
 import java.util.List;
@@ -15,27 +13,29 @@ public class TeacherSectionMapper {
 
     private TeacherSectionMapper() {}
 
-    public static TeacherFullFindAll findAll(TeacherSectionEntity entity) {
-        return new TeacherFullFindAll(entity.getTeacher().getIdTeacher(), entity.getTeacher().getFirstName());
+    public static TeacherSectionUpdated toFindAll(TeacherSectionEntity entity) {
+        return new TeacherSectionUpdated(entity.getTeacher().getIdTeacher(), entity.getSection().getIdSection());
     }
 
-    public static TeacherSectionEntity toEntityCreated(Long teacherId, Long sectionId){
+    public static TeacherSectionEntity toEntity(TeacherEntity teacher, SectionEntity section) {
         return TeacherSectionEntity.builder()
-                .teacher(TeacherEntity.builder().idTeacher(teacherId).build())
-                .section(SectionEntity.builder().idSection(sectionId).build())
+                .id(new TeacherSectionPK(teacher.getIdTeacher(), section.getIdSection()))
+                .teacher(teacher)
+                .section(section)
                 .build();
     }
 
-    public static TeacherSectionEntity toEntityUpdated(TeacherEntity teacher, SectionEntity section, TeacherSectionUpdate dto){
-
-        return new TeacherSectionEntity( );
+    public static TeacherSectionUpdated toUpdated(TeacherSectionEntity entity) {
+        return new TeacherSectionUpdated(entity.getTeacher().getIdTeacher(), entity.getSection().getIdSection());
     }
 
-    public static TeacherSectionUpdated toUpdated(TeacherSectionEntity entity){
-    return new TeacherSectionUpdated(entity.getTeacher().getIdTeacher(), entity.getSection().getIdSection());
+    public static TeacherFullFindAll toTeacherFindAll(TeacherSectionEntity entity) {
+        return new TeacherFullFindAll(entity.getTeacher().getIdTeacher(), entity.getTeacher().getFirstName());
     }
 
-
+    public static SectionFindAll toSectionFindAll(TeacherSectionEntity entity) {
+        return new SectionFindAll(entity.getSection().getIdSection(), entity.getSection().getName());
+    }
 
 }
 

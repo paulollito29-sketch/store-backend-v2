@@ -9,10 +9,8 @@ import java.util.Optional;
 
 public interface SectionRepository extends JpaRepository<SectionEntity, Long> {
 
-    @EntityGraph(attributePaths = "teacher")
     List<SectionEntity> findAllByEnabledIsTrueOrderByIdSectionDesc();
 
-    @EntityGraph(attributePaths = "teacher")
     Optional<SectionEntity> findFirstByEnabledIsTrueAndIdSection(Long id);
 
     boolean existsByEnabledIsTrueAndNameIgnoreCase(String Name);

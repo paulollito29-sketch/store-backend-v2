@@ -1,17 +1,16 @@
 package com.example.controller;
 
-import com.example.dto.TeacherSectionsFindAll;
+import com.example.dto.*;
 import com.example.service.TeacherSectionService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/teachersections")
+@RequestMapping("/api/ts")
 
 public class TeacherSectionRestController {
 
@@ -23,9 +22,43 @@ public class TeacherSectionRestController {
 
     }
 
-    @GetMapping("/ts/{id}")
-    public ResponseEntity<List<TeacherSectionsFindAll>> get(@PathVariable Long id){
-        return ResponseEntity.ok().body(teacherSectionService.findAllSections(id));
+    @GetMapping
+    public ResponseEntity<List<TeacherSectionUpdated>> findAll() {
+        return ResponseEntity.ok(teacherSectionService.findAll());
     }
 
-}
+    @GetMapping("/fo/{teacherId}/{sectionId}")
+    public ResponseEntity<TeacherSectionUpdated> findOne(@PathVariable Long teacherId,
+                                                         @PathVariable Long sectionId) {
+        return ResponseEntity.ok(teacherSectionService.findOne(teacherId, sectionId));
+    }
+
+    @PostMapping
+    public ResponseEntity<List<TeacherSectionUpdated>> create(@Valid @RequestBody TeacherSectionCreate dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(teacherSectionService.create(dto));
+    }
+
+    @PutMapping("/u/{teacherId}/{sectionId}")
+    public ResponseEntity<TeacherSectionUpdated> update(@PathVariable Long teacherId,
+                                                        @PathVariable Long sectionId,
+                                                        @Valid @RequestBody TeacherSectionUpdate dto) {
+        return ResponseEntity.ok(teacherSectionService.update(teacherId, sectionId, dto));
+    }
+
+    @DeleteMapping("/d/{teacherId}/{sectionId}")
+    public ResponseEntity<Void> delete(@PathVariable Long teacherId,
+                                       @PathVariable Long sectionId) {
+        teacherSectionService.delete(teacherId, sectionId);
+        return ResponseEntity.noContent().build();
+    }
+
+        @GetMapping("/ss/{teacherId}")
+        public ResponseEntity<List<SectionFindAll>> findSectionsByTeacher(@PathVariable Long teacherId) {
+            return ResponseEntity.ok(teacherSectionService.findSectionsByTeacher(teacherId));
+        }
+
+        @GetMapping("/ts/{sectionId}")
+        public ResponseEntity<List<TeacherFullFindAll>> findTeachersBySection(@PathVariable Long sectionId) {
+            return ResponseEntity.ok(teacherSectionService.findTeachersBySection(sectionId));
+        }
+    }
