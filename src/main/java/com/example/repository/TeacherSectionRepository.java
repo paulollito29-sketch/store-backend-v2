@@ -1,5 +1,6 @@
 package com.example.repository;
 
+import com.example.dto.TeacherSectionsFindAll;
 import com.example.entity.SectionEntity;
 import com.example.entity.TeacherEntity;
 import com.example.entity.TeacherSectionEntity;
@@ -11,6 +12,6 @@ public interface TeacherSectionRepository extends JpaRepository<TeacherSectionEn
 
     List<TeacherSectionEntity> findAllBySection(SectionEntity section);
 
-    List<TeacherSectionEntity> findAllByTeacher(TeacherEntity teacher);
+    List<TeacherSectionsFindAll> findAllByTeacher(TeacherEntity teacher);
 
 }
