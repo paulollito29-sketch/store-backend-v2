@@ -17,6 +17,8 @@ public interface TeacherRepository extends JpaRepository<TeacherEntity, Long> {
     boolean existsByEnabledIsTrueAndIdTeacherNotAndEmailIgnoreCase(Long id, String email);
 
     //methods for section
-
     Optional <TeacherEntity> findByEnabledIsTrueAndIdTeacher(Long id);
+
+    // Methods to Teacher and Sections
+    List<TeacherEntity> findAllByEnabledIsTrue();
 }

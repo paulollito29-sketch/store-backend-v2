@@ -21,6 +21,7 @@ public interface SectionRepository extends JpaRepository<SectionEntity, Long> {
 
     boolean existsByEnabledIsTrueAndIdSection(Long id);
 
-
+    // Methods to Teacher and Sections
+    List<SectionEntity> findAllByEnabledIsTrue();
 
 }

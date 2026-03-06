@@ -19,11 +19,10 @@ public class TeacherSectionRestController {
     public TeacherSectionRestController(TeacherSectionService teacherSectionService){
 
         this.teacherSectionService = teacherSectionService;
-
     }
 
     @GetMapping
-    public ResponseEntity<List<TeacherSectionUpdated>> findAll() {
+    public ResponseEntity<List<TeacherSecctionsDTO>> findAll() {
         return ResponseEntity.ok(teacherSectionService.findAll());
     }
 
