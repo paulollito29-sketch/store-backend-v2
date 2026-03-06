@@ -7,6 +7,10 @@ import com.example.entity.TeacherSectionEntity;
 import com.example.entity.TeacherSectionPK;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class TeacherSectionMapper {
 
     private TeacherSectionMapper() {}
@@ -21,6 +25,32 @@ public class TeacherSectionMapper {
                 .teacher(teacher)
                 .section(section)
                 .build();
+    }
+
+    public static List<TeacherSecctionsDTO> toList(List<SectionEntity> sections, List<TeacherEntity> teachers, List<TeacherSectionEntity> teachersSections ){
+
+        List<TeacherSecctionsDTO> lista = new ArrayList<>();
+
+        for (TeacherEntity teacher : teachers) {
+
+            TeacherSecctionsDTO dto = new TeacherSecctionsDTO();
+            dto.setTeacherId(teacher.getIdTeacher());
+            dto.setNameComplete(teacher.getFirstName() + " " +teacher.getLastName());
+            List<String> teacherSectionsList = new ArrayList<>();
+            for (TeacherSectionEntity teacherSection : teachersSections) {
+                if (teacherSection.getTeacher().getIdTeacher().equals(teacher.getIdTeacher())) {
+                    for (SectionEntity section : sections) {
+                        if (section.getIdSection().equals(teacherSection.getSection().getIdSection())) {
+                            teacherSectionsList.add(section.getName());
+                        }
+                    }
+                }
+            }
+
+            dto.setSections(teacherSectionsList);
+            lista.add(dto);
+        }
+        return lista;
     }
 
     public static TeacherSectionCreated toEntityCreated(TeacherSectionEntity entity) {
