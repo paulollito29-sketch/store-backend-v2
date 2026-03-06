@@ -27,25 +27,25 @@ public class TeacherSectionRestController {
         return ResponseEntity.ok(teacherSectionService.findAll());
     }
 
-    @GetMapping("/fo/{teacherId}/{sectionId}")
-    public ResponseEntity<TeacherSectionUpdated> findOne(@PathVariable Long teacherId,
+    @GetMapping("/fots/{teacherId}/{sectionId}")
+    public ResponseEntity<TeacherSectionFindOne> findOne(@PathVariable Long teacherId,
                                                          @PathVariable Long sectionId) {
         return ResponseEntity.ok(teacherSectionService.findOne(teacherId, sectionId));
     }
 
     @PostMapping
-    public ResponseEntity<List<TeacherSectionUpdated>> create(@Valid @RequestBody TeacherSectionCreate dto) {
+    public ResponseEntity<TeacherSectionCreated> create(@Valid @RequestBody TeacherSectionCreate dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(teacherSectionService.create(dto));
     }
 
-    @PutMapping("/u/{teacherId}/{sectionId}")
+    @PutMapping("/uts/{teacherId}/{sectionId}")
     public ResponseEntity<TeacherSectionUpdated> update(@PathVariable Long teacherId,
                                                         @PathVariable Long sectionId,
                                                         @Valid @RequestBody TeacherSectionUpdate dto) {
         return ResponseEntity.ok(teacherSectionService.update(teacherId, sectionId, dto));
     }
 
-    @DeleteMapping("/d/{teacherId}/{sectionId}")
+    @DeleteMapping("/dts/{teacherId}/{sectionId}")
     public ResponseEntity<Void> delete(@PathVariable Long teacherId,
                                        @PathVariable Long sectionId) {
         teacherSectionService.delete(teacherId, sectionId);

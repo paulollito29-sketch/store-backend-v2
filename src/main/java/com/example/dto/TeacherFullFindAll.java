@@ -1,4 +1,4 @@
 package com.example.dto;
 
-public record TeacherFullFindAll(Long teacherId, String nameTeacherFullFindAll) {
+public record TeacherFullFindAll(Long teacherId, String name) {
 }

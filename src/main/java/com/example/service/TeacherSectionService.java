@@ -31,27 +31,20 @@ public class TeacherSectionService {
                 .map(TeacherSectionMapper::toFindAll)
                 .toList();
     }
-    public List<TeacherSectionUpdated> create(TeacherSectionCreate dto) {
+    public TeacherSectionCreated create(TeacherSectionCreate dto) {
         var teacher = teacherRepository.findFirstByEnabledIsTrueAndIdTeacher(dto.teacherId())
                 .orElseThrow(() -> new ResourceNotFoundException("teacher not found"));
 
-        if (dto.sectionsId().stream().distinct().count() != dto.sectionsId().size()) {
-            throw new ResourceAlreadyExistsException("duplicate section ids in request");
+        var section = sectionRepository.findFirstByEnabledIsTrueAndIdSection(dto.sectionId())
+                .orElseThrow(() -> new ResourceNotFoundException("section not found"));
+
+        var pk = new TeacherSectionPK(teacher.getIdTeacher(), section.getIdSection());
+        if (teacherSectionRepository.existsById(pk)) {
+            throw new ResourceAlreadyExistsException("teacher-section relation already exists");
         }
 
-        return dto.sectionsId().stream()
-                .map(sectionId -> {
-                    var section = sectionRepository.findFirstByEnabledIsTrueAndIdSection(sectionId)
-                            .orElseThrow(() -> new ResourceNotFoundException("section not found"));
-
-                    var pk = new TeacherSectionPK(teacher.getIdTeacher(), section.getIdSection());
-                    if (teacherSectionRepository.existsById(pk)) {
-                        throw new ResourceAlreadyExistsException("teacher-section relation already exists");
-                    }
-                    var created = teacherSectionRepository.save(TeacherSectionMapper.toEntity(teacher, section));
-                    return TeacherSectionMapper.toUpdated(created);
-                })
-                .toList();
+        var created = teacherSectionRepository.save(TeacherSectionMapper.toEntity(teacher, section));
+        return TeacherSectionMapper.toEntityCreated(created);
     }
     /*
     public List<TeacherSectionEntity> findAllTeachers(Long id){
@@ -61,11 +54,11 @@ public class TeacherSectionService {
     }
     */
 
-    public TeacherSectionUpdated findOne(Long teacherId, Long sectionId) {
+    public TeacherSectionFindOne findOne(Long teacherId, Long sectionId) {
         var teacherSection = teacherSectionRepository.findById(new TeacherSectionPK(teacherId, sectionId))
                 .orElseThrow(() -> new ResourceNotFoundException("teacher-section not found"));
 
-        return TeacherSectionMapper.toUpdated(teacherSection);
+        return TeacherSectionMapper.toFindOne(teacherSection);
     }
 
     public TeacherSectionUpdated update(Long teacherId, Long sectionId, TeacherSectionUpdate dto) {
@@ -75,11 +68,11 @@ public class TeacherSectionService {
         var teacher = teacherRepository.findFirstByEnabledIsTrueAndIdTeacher(dto.teacherId())
                 .orElseThrow(() -> new ResourceNotFoundException("teacher not found"));
 
-        var section = sectionRepository.findFirstByEnabledIsTrueAndIdSection(dto.sectionsId())
+        var section = sectionRepository.findFirstByEnabledIsTrueAndIdSection(dto.sectionId())
                 .orElseThrow(() -> new ResourceNotFoundException("section not found"));
 
         var updatedEntity = TeacherSectionMapper.toEntity(teacher, section);
-        if (teacherId.longValue() != dto.teacherId() || sectionId.longValue() != dto.sectionsId()) {
+        if (teacherId.longValue() != dto.teacherId() || sectionId.longValue() != dto.sectionId()) {
             teacherSectionRepository.deleteById(new TeacherSectionPK(teacherId, sectionId));
         }
 
@@ -104,6 +97,7 @@ public class TeacherSectionService {
                 .map(TeacherSectionMapper::toSectionFindAll)
                 .toList();
     }
+
     public void delete(Long teacherId, Long sectionId) {
         var pk = new TeacherSectionPK(teacherId, sectionId);
         if (!teacherSectionRepository.existsById(pk)) {

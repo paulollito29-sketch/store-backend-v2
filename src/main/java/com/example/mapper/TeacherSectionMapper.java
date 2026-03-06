@@ -5,9 +5,7 @@ import com.example.entity.SectionEntity;
 import com.example.entity.TeacherEntity;
 import com.example.entity.TeacherSectionEntity;
 import com.example.entity.TeacherSectionPK;
-import jdk.dynalink.beans.StaticClass;
 
-import java.util.List;
 
 public class TeacherSectionMapper {
 
@@ -23,6 +21,14 @@ public class TeacherSectionMapper {
                 .teacher(teacher)
                 .section(section)
                 .build();
+    }
+
+    public static TeacherSectionCreated toEntityCreated(TeacherSectionEntity entity) {
+        return new TeacherSectionCreated(entity.getTeacher().getIdTeacher(), entity.getSection().getIdSection());
+    }
+
+    public static TeacherSectionFindOne toFindOne(TeacherSectionEntity entity) {
+        return new TeacherSectionFindOne(entity.getTeacher().getIdTeacher(), entity.getSection().getIdSection());
     }
 
     public static TeacherSectionUpdated toUpdated(TeacherSectionEntity entity) {
