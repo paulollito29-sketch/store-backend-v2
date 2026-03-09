@@ -16,6 +16,7 @@ public interface SpecialityRepository extends JpaRepository<SpecialityEntity, Lo
     Optional<SpecialityEntity> findFirstByEnabledIsTrueAndIdSpeciality(Long id);
 
     boolean existsByEnabledIsTrueAndNameIgnoreCase(String name);
+
     boolean existsByEnabledIsTrueAndIdSpecialityNotAndNameIgnoreCase(Long id, String name);
 
     @Query(value = """

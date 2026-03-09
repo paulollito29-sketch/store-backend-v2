@@ -2,15 +2,27 @@ package com.example.mapper;
 
 import com.example.dto.*;
 import com.example.entity.CategoryEntity;
+import com.example.repository.ProductRepository;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 public class CategoryMapper {
+
     private CategoryMapper() {
+    }
+    public static List<ProductFindAll> toProducts(CategoryEntity entity){
+        if (entity.getProduct() == null){
+            return Collections.emptyList();
+        }
+        return entity.getProduct().stream()
+                .map(ProductMapper::toFindAll)
+                .toList();
     }
 
     public static CategoryFindAll ToCategoryFindAll(CategoryEntity entity) {
-        return new CategoryFindAll(entity.getIdCategory(), entity.getName());
+        return new CategoryFindAll(entity.getIdCategory(), entity.getName(), toProducts(entity));
     }
 
     public static CategoryEntity ToEntity(CategoryCreate dto){
@@ -26,7 +38,7 @@ public class CategoryMapper {
     }
 
     public static CategoryFindOne ToCategoryFindOne(CategoryEntity entity){
-        return new CategoryFindOne(entity.getIdCategory(), entity.getName());
+        return new CategoryFindOne(entity.getIdCategory(), entity.getName(), toProducts(entity));
     }
 
     public static CategoryEntity ToEntity(CategoryEntity entity, CategoryUpdate dto){

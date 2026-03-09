@@ -1,4 +1,6 @@
 package com.example.dto;
 
-public record CategoryFindOne(Long categoryId, String categoryName) {
+import java.util.List;
+
+public record CategoryFindOne(Long categoryId, String categoryName, List<ProductFindAll> products) {
 }
